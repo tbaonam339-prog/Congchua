@@ -1,0 +1,505 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👑 Princess Fashion — Vương Quốc Thời Trang</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="light-theme">
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-bg"></div>
+        <div class="splash-content">
+            <div class="floating-crown">👑</div>
+            <h1 class="splash-title">PRINCESS FASHION</h1>
+            <p class="splash-subtitle">✨ VƯƠNG QUỐC THỜI TRANG CÔNG CHÚA ✨</p>
+            <div class="sparkle-loader"></div>
+            <button id="btn-skip-splash" class="btn-royal btn-sm">Bắt đầu ngay ▶</button>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div id="game-app" class="game-app hidden">
+        
+        <!-- Header Bar -->
+        <header class="top-bar">
+            <div class="user-profile-badge" id="header-profile-btn">
+                <div class="avatar-circle" id="header-avatar">👑</div>
+                <div class="user-info">
+                    <span class="user-name" id="display-player-name">Công chúa</span>
+                    <span class="user-title" id="display-player-title">Tập sự thời trang</span>
+                </div>
+            </div>
+
+            <div class="resource-bar">
+                <div class="res-item" title="Đẳng cấp">
+                    <span class="res-icon">⭐</span>
+                    <span class="res-val" id="res-level">Lv.1</span>
+                </div>
+                <div class="res-item" title="Coins">
+                    <span class="res-icon">💰</span>
+                    <span class="res-val" id="res-coins">500</span>
+                </div>
+                <div class="res-item" title="Gems">
+                    <span class="res-icon">💎</span>
+                    <span class="res-val" id="res-gems">5</span>
+                </div>
+                <div class="res-item" title="Crown Points">
+                    <span class="res-icon">👑</span>
+                    <span class="res-val" id="res-crowns">0</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="btn-audio-toggle" class="icon-btn" title="Âm thanh">🔊</button>
+                <button id="btn-settings" class="icon-btn" title="Cài đặt">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-layout">
+
+            <!-- Sidebar Navigation (Desktop) -->
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="tab-home">🏠 <span>Trang chủ</span></button>
+                <button class="nav-btn" data-tab="tab-dressup">👗 <span>Phòng Thay Đồ</span></button>
+                <button class="nav-btn" data-tab="tab-contest">🏆 <span>Cuộc Thi</span></button>
+                <button class="nav-btn" data-tab="tab-story">📖 <span>Cốt Truyện</span></button>
+                <button class="nav-btn" data-tab="tab-wardrobe">👜 <span>Tủ Đồ</span></button>
+                <button class="nav-btn" data-tab="tab-minigames">🎡 <span>Mini Game</span></button>
+                <button class="nav-btn" data-tab="tab-studio">📸 <span>Studio</span></button>
+                <button class="nav-btn" data-tab="tab-shop">🛍️ <span>Shop & Chest</span></button>
+                <button class="nav-btn" data-tab="tab-profile">👤 <span>Hồ Sơ</span></button>
+            </nav>
+
+            <!-- Active View Containers -->
+            <main class="content-viewport">
+
+                <!-- TAB: HOME -->
+                <section id="tab-home" class="tab-page active">
+                    <div class="banner-card glass">
+                        <div class="banner-text">
+                            <h2>✨ Chào mừng đến Vương Quốc Thời Trang!</h2>
+                            <p>Hãy biến hóa công chúa của bạn thành nữ hoàng lộng lẫy nhất vương quốc.</p>
+                            <button class="btn-royal" onclick="switchTab('tab-dressup')">👗 Vào Thay Đồ Ngay</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dash-card glass" onclick="switchTab('tab-contest')">
+                            <span class="dash-icon">🏆</span>
+                            <h3>Thi Thời Trang</h3>
+                            <p id="home-daily-theme">Chủ đề: Royal Ball</p>
+                            <span class="badge-tag">Thách đấu ngay</span>
+                        </div>
+
+                        <div class="dash-card glass" onclick="openSpinModal()">
+                            <span class="dash-icon">🎡</span>
+                            <h3>Vòng Quay May Mắn</h3>
+                            <p>Nhận Coins, Gems & Quà độc quyền</p>
+                            <span class="badge-tag gold">Quay miễn phí</span>
+                        </div>
+
+                        <div class="dash-card glass" onclick="switchTab('tab-story')">
+                            <span class="dash-icon">📖</span>
+                            <h3>Chế Độ Cốt Truyện</h3>
+                            <p id="home-story-progress">Chương 1: Lễ hội Hoàng Gia</p>
+                            <span class="badge-tag purple">Khám phá</span>
+                        </div>
+
+                        <div class="dash-card glass" onclick="openDailyQuestsModal()">
+                            <span class="dash-icon">🎯</span>
+                            <h3>Nhiệm Vụ Hằng Ngày</h3>
+                            <p id="home-quest-count">3 nhiệm vụ đang chờ</p>
+                            <span class="badge-tag green">Nhận thưởng</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: DRESS UP ROOM -->
+                <section id="tab-dressup" class="tab-page">
+                    <div class="dressup-container">
+                        
+                        <!-- Left Panel: Categories -->
+                        <div class="category-panel glass">
+                            <div class="panel-header">
+                                <h3>Danh mục</h3>
+                            </div>
+                            <div class="category-list" id="category-list">
+                                <!-- Dynamic Categories -->
+                            </div>
+                        </div>
+
+                        <!-- Center Panel: Character Display -->
+                        <div class="character-panel">
+                            <div class="character-stage" id="character-stage">
+                                <div class="stage-bg-layer" id="stage-bg"></div>
+                                <div class="stage-effect-layer" id="stage-effects"></div>
+                                
+                                <!-- Layered SVG Character Canvas -->
+                                <div id="svg-character-container" class="svg-character-container">
+                                    <!-- Dynamic SVG renders here -->
+                                </div>
+                            </div>
+
+                            <div class="character-controls">
+                                <button class="btn-royal-sm" id="btn-random-outfit">🎲 Random</button>
+                                <button class="btn-royal-sm" id="btn-remove-all">🗑️ Tháo hết</button>
+                                <button class="btn-royal-sm gold" id="btn-save-outfit">💾 Lưu Outfit</button>
+                                <button class="btn-royal-sm purple" id="btn-style-advisor">💡 Gợi Ý</button>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Item Selection Grid -->
+                        <div class="item-selection-panel glass">
+                            <div class="panel-header">
+                                <input type="text" id="item-search-input" placeholder="🔍 Tìm trang phục..." class="royal-input">
+                                <select id="filter-rarity" class="royal-select">
+                                    <option value="all">Tất cả độ hiếm</option>
+                                    <option value="common">Common ⭐</option>
+                                    <option value="rare">Rare ⭐⭐⭐</option>
+                                    <option value="epic">Epic 💜</option>
+                                    <option value="legendary">Legendary ✨</option>
+                                    <option value="mythic">Mythic 👑</option>
+                                </select>
+                            </div>
+
+                            <div class="items-grid" id="items-grid">
+                                <!-- Dynamic Items Rendered Here -->
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- TAB: CONTEST / RUNWAY -->
+                <section id="tab-contest" class="tab-page">
+                    <div class="contest-hub glass">
+                        <div class="hub-header">
+                            <h2>🏆 Đấu Trường Thời Trang Hoàng Gia</h2>
+                            <p>Phối đồ theo đúng chủ đề, chinh phục các giám khảo khó tính!</p>
+                        </div>
+
+                        <div class="theme-card glass">
+                            <div class="theme-badge">Chủ Đề Hiện Tại</div>
+                            <h1 id="contest-theme-title">🌸 Spring Blossom Festival</h1>
+                            <p id="contest-theme-desc">Trang phục dịu dàng, mang sắc xuân tươi trẻ với tông màu hồng và hoa lá tươi tắn.</p>
+                            <div class="theme-requirements">
+                                <span>Gợi ý phong cách: <strong>Romantic / Cute / Floral</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="contest-actions">
+                            <button class="btn-royal lg" onclick="startContestDressUp()">👗 Mặc Đồ & Dự Thi</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: STORY MODE -->
+                <section id="tab-story" class="tab-page">
+                    <div class="story-container glass">
+                        <h2>📖 Hành Trình Lễ Hội Thời Trang</h2>
+                        <div class="chapters-grid" id="chapters-grid">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: WARDROBE -->
+                <section id="tab-wardrobe" class="tab-page">
+                    <div class="wardrobe-container glass">
+                        <div class="wardrobe-tabs">
+                            <button class="w-tab-btn active" data-wtab="my-items">Tủ Đồ Sở Hữu</button>
+                            <button class="w-tab-btn" data-wtab="saved-outfits">Outfit Đã Lưu</button>
+                            <button class="w-tab-btn" data-wtab="collections">Bộ Sưu Tập Set</button>
+                        </div>
+
+                        <div id="wtab-my-items" class="wtab-content active">
+                            <div class="items-grid" id="wardrobe-items-grid"></div>
+                        </div>
+
+                        <div id="wtab-saved-outfits" class="wtab-content">
+                            <div class="outfits-grid" id="saved-outfits-grid"></div>
+                        </div>
+
+                        <div id="wtab-collections" class="wtab-content">
+                            <div class="collections-list" id="collections-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: MINI GAMES -->
+                <section id="tab-minigames" class="tab-page">
+                    <div class="minigames-hub glass">
+                        <h2>🎡 Mini-Game Giải Trí</h2>
+                        <p>Thử tài nhạy bén để nhận thêm Coins và Gems!</p>
+                        <div class="games-grid">
+                            <div class="game-card glass" onclick="startMiniGame('memory')">
+                                <span class="g-icon">🧠</span>
+                                <h3>Fashion Memory</h3>
+                                <p>Trò chơi lật hình tìm cặp trang phục giống nhau.</p>
+                                <button class="btn-royal-sm">Chơi Ngay</button>
+                            </div>
+                            <div class="game-card glass" onclick="startMiniGame('quiz')">
+                                <span class="g-icon">❓</span>
+                                <h3>Fashion Quiz</h3>
+                                <p>Trả lời câu hỏi kiến thức phối đồ thời trang.</p>
+                                <button class="btn-royal-sm">Chơi Ngay</button>
+                            </div>
+                            <div class="game-card glass" onclick="startMiniGame('crown')">
+                                <span class="g-icon">👑</span>
+                                <h3>Crown Hunt</h3>
+                                <p>Nhanh tay tinh mắt tìm vương miện hoàng gia!</p>
+                                <button class="btn-royal-sm">Chơi Ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: PHOTO STUDIO -->
+                <section id="tab-studio" class="tab-page">
+                    <div class="studio-container glass">
+                        <h2>📸 Photo Studio Hoàng Gia</h2>
+                        <div class="studio-workspace">
+                            <div class="canvas-preview-box">
+                                <canvas id="photo-canvas" width="400" height="550"></canvas>
+                            </div>
+                            <div class="studio-controls">
+                                <label>Chọn Phông Nền:</label>
+                                <select id="studio-bg-select" class="royal-select">
+                                    <option value="palace">🏰 Lâu Đài Hoàng Gia</option>
+                                    <option value="garden">🌸 Vườn Hoa Hồng</option>
+                                    <option value="galaxy">🌌 Dải Ngân Hà</option>
+                                    <option value="snow">❄️ Vương Quốc Băng Giá</option>
+                                </select>
+                                <button class="btn-royal gold" id="btn-download-photo">📥 Tải Ảnh Lên Máy</button>
+                                <button class="btn-royal" id="btn-export-code">🔑 Xuất Mã Outfit String</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: SHOP & CHEST -->
+                <section id="tab-shop" class="tab-page">
+                    <div class="shop-container glass">
+                        <h2>🛍️ Shop Hoàng Gia & Rương Báu</h2>
+                        <div class="shop-sections">
+                            <div class="chest-area glass">
+                                <h3>🎁 Mystery Chests</h3>
+                                <div class="chests-grid">
+                                    <div class="chest-card">
+                                        <span>📦</span>
+                                        <h4>Rương Bạc</h4>
+                                        <p>100 Coins</p>
+                                        <button class="btn-royal-sm" onclick="openChest('silver')">Mở Rương</button>
+                                    </div>
+                                    <div class="chest-card gold">
+                                        <span>👑</span>
+                                        <h4>Rương Hoàng Gia</h4>
+                                        <p>10 Gems</p>
+                                        <button class="btn-royal-sm gold" onclick="openChest('royal')">Mở Rương</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="shop-items-area">
+                                <h3>✨ Trang Phục Bán Trong Shop</h3>
+                                <div class="items-grid" id="shop-items-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: PROFILE -->
+                <section id="tab-profile" class="tab-page">
+                    <div class="profile-container glass">
+                        <div class="profile-header">
+                            <div class="p-avatar">👑</div>
+                            <div class="p-details">
+                                <h2 id="prof-name">Công chúa</h2>
+                                <p id="prof-title">Tập sự thời trang</p>
+                                <div class="xp-bar-box">
+                                    <div class="xp-fill" id="prof-xp-fill" style="width: 20%;"></div>
+                                    <span id="prof-xp-text">20 / 100 XP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-box glass">
+                                <h4>Cuộc Thi Đã Tham Gia</h4>
+                                <span id="stat-contests">0</span>
+                            </div>
+                            <div class="stat-box glass">
+                                <h4>Xếp Hạng S / S+</h4>
+                                <span id="stat-s-ranks">0</span>
+                            </div>
+                            <div class="stat-box glass">
+                                <h4>Trang Phục Sở Hữu</h4>
+                                <span id="stat-items-owned">0</span>
+                            </div>
+                            <div class="stat-box glass">
+                                <h4>Điểm Cao Nhất</h4>
+                                <span id="stat-high-score">0</span>
+                            </div>
+                        </div>
+
+                        <div class="achievements-section">
+                            <h3>🏆 Thành Tích Hoàng Gia</h3>
+                            <div class="achieve-list" id="achievements-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <button class="m-nav-btn active" data-tab="tab-home">🏠<span>Home</span></button>
+            <button class="m-nav-btn" data-tab="tab-dressup">👗<span>Thay Đồ</span></button>
+            <button class="m-nav-btn" data-tab="tab-contest">🏆<span>Thi</span></button>
+            <button class="m-nav-btn" data-tab="tab-wardrobe">👜<span>Tủ Đồ</span></button>
+            <button class="m-nav-btn" data-tab="tab-profile">👤<span>Hồ Sơ</span></button>
+        </nav>
+    </div>
+
+    <!-- Modals Overlay -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        
+        <!-- Modal: Contest Judging Result -->
+        <div id="modal-judging" class="royal-modal hidden">
+            <div class="modal-header">
+                <h2>✨ KẾT QUẢ CHẤM ĐIỂM HOÀNG GIA ✨</h2>
+            </div>
+            <div class="modal-body">
+                <div class="judge-box">
+                    <div class="judge-avatar">👸</div>
+                    <div class="judge-dialogue" id="judge-dialogue-text">"Một bộ trang phục vô cùng lộng lẫy và tinh tế!"</div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="score-row"><span>Độ Hợp Chủ Đề:</span><strong id="score-theme">0/30</strong></div>
+                    <div class="score-row"><span>Hài Hòa Màu Sắc:</span><strong id="score-color">0/20</strong></div>
+                    <div class="score-row"><span>Phong Cách (Style):</span><strong id="score-style">0/20</strong></div>
+                    <div class="score-row"><span>Độ Hiếm Trang Phục:</span><strong id="score-rarity">0/15</strong></div>
+                    <div class="score-row"><span>Set & Combo Bonus:</span><strong id="score-combo">0/15</strong></div>
+                </div>
+
+                <div class="total-score-display">
+                    <div class="rank-badge" id="display-rank">S+</div>
+                    <div class="numeric-score" id="display-total-score">98 / 100</div>
+                </div>
+
+                <div class="rewards-earned">
+                    <p>Phần thưởng nhận được:</p>
+                    <div class="reward-icons">
+                        <span id="reward-coins">+500 💰</span>
+                        <span id="reward-xp">+50 ⭐</span>
+                        <span id="reward-gems">+5 💎</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-royal lg" onclick="closeModal('modal-judging')">Hoàn Tất</button>
+            </div>
+        </div>
+
+        <!-- Modal: Daily Spin Wheel -->
+        <div id="modal-spin" class="royal-modal hidden">
+            <div class="modal-header">
+                <h2>🎡 VÒNG QUAY MAY MẮN</h2>
+                <button class="close-btn" onclick="closeModal('modal-spin')">✕</button>
+            </div>
+            <div class="modal-body spin-center">
+                <div class="wheel-container">
+                    <div class="wheel-pointer">👇</div>
+                    <div id="wheel" class="wheel">
+                        <div class="wheel-sec">💰 100</div>
+                        <div class="wheel-sec">💎 2</div>
+                        <div class="wheel-sec">💰 300</div>
+                        <div class="wheel-sec">⭐ 50</div>
+                        <div class="wheel-sec">💎 10</div>
+                        <div class="wheel-sec">👑 Crown</div>
+                    </div>
+                </div>
+                <button id="btn-spin-wheel" class="btn-royal gold lg">QUAY NGAY</button>
+            </div>
+        </div>
+
+        <!-- Modal: Item Detail -->
+        <div id="modal-item-detail" class="royal-modal hidden">
+            <div class="modal-header">
+                <h2 id="item-detail-name">Tên Vật Phẩm</h2>
+                <button class="close-btn" onclick="closeModal('modal-item-detail')">✕</button>
+            </div>
+            <div class="modal-body item-detail-body">
+                <div class="item-detail-icon" id="item-detail-icon">👗</div>
+                <div class="item-detail-info">
+                    <p><strong>Độ hiếm:</strong> <span id="item-detail-rarity">Epic</span></p>
+                    <p><strong>Chủ đề:</strong> <span id="item-detail-theme">Royal</span></p>
+                    <p><strong>Phong cách:</strong> <span id="item-detail-style">Elegant</span></p>
+                    <p id="item-detail-desc">Mô tả vật phẩm lộng lẫy...</p>
+                    <div class="item-price-tag" id="item-detail-price">💰 500</div>
+                </div>
+            </div>
+            <div class="modal-footer" id="item-detail-actions">
+                <!-- Action buttons injected dynamically -->
+            </div>
+        </div>
+
+        <!-- Modal: Mini Game Modal -->
+        <div id="modal-minigame" class="royal-modal hidden">
+            <div class="modal-header">
+                <h2 id="minigame-title">Mini Game</h2>
+                <button class="close-btn" onclick="closeModal('modal-minigame')">✕</button>
+            </div>
+            <div class="modal-body" id="minigame-container">
+                <!-- Dynamic game view -->
+            </div>
+        </div>
+
+        <!-- Modal: Settings -->
+        <div id="modal-settings" class="royal-modal hidden">
+            <div class="modal-header">
+                <h2>⚙️ CÀI ĐẶT GAME</h2>
+                <button class="close-btn" onclick="closeModal('modal-settings')">✕</button>
+            </div>
+            <div class="modal-body settings-body">
+                <div class="setting-row">
+                    <span>Âm thanh SFX</span>
+                    <input type="checkbox" id="setting-sfx" checked>
+                </div>
+                <div class="setting-row">
+                    <span>Nhạc nền (BGM)</span>
+                    <input type="checkbox" id="setting-bgm" checked>
+                </div>
+                <div class="setting-row">
+                    <span>Tên công chúa</span>
+                    <input type="text" id="setting-player-name" class="royal-input" value="Công chúa">
+                </div>
+                <hr>
+                <div class="setting-actions">
+                    <button class="btn-royal-sm gold" id="btn-export-save">📥 Export Save Data</button>
+                    <button class="btn-royal-sm" onclick="document.getElementById('import-save-file').click()">📤 Import Save Data</button>
+                    <input type="file" id="import-save-file" style="display:none;" accept=".json">
+                    <button class="btn-royal-sm red" id="btn-reset-game">🗑️ Reset Toàn Bộ Game</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+```
